@@ -12,11 +12,14 @@ services:
   prometheus: 
     image: "prom/prometheus:v2.2.1"
     network_mode: host
+    user: $UID
     ports: 
       - "9090:9090"
     restart: always
+    command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
     volumes: 
       - "$PWD/prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "$PWD/data:/prometheus:rw"
   nginx:
     image: nginx
     network_mode: host
